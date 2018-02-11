@@ -1,41 +1,26 @@
-import sys
-import time
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from PyQt4.QtWebKit import *
+#!/usr/bin/env python
 
-class Screenshot(QWebView):
-    def __init__(self):
-        self.app = QApplication(sys.argv)
-        QWebView.__init__(self)
-        self._loaded = False
-        self.loadFinished.connect(self._loadFinished)
-
-    def capture(self, url, output_file):
-        self.load(QUrl(url))
-        self.wait_load()
+from pyvirtualdisplay import Display
+from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 
-        frame = self.page().mainFrame()
-        self.page().setViewportSize(QSize(1920,1080))
+display = Display(visible=0, size=(1920, 1154))
+display.start()
 
-        image = QImage(QSize(1920,1080),QImage.Format_ARGB32)
-        painter = QPainter(image)
-        frame.render(painter)
-        painter.end()
-        print 'saving', output_file
-        image.save(output_file)
+binary = FirefoxBinary('/root/Desktop/firefox/firefox')
+browser = webdriver.Firefox(firefox_binary=binary)
+browser.set_window_size(1920, 1154)
 
-    def wait_load(self, delay=0):
-        
-        while not self._loaded:
-            self.app.processEvents()
-            time.sleep(delay)
-        self._loaded = False
 
-    def _loadFinished(self, result):
-        self._loaded = True
 
-s = Screenshot()
-for x in range(1,50):
-    s.capture('https://db.chgk.info/question/akadun01.3/%i'%x, 'raw_material/question%i.jpg'%(x+46))
+f = open('realinks.txt', "r")
+lines = f.readlines()
+f.close()
+for i in range(len(lines)):
+     browser.get(lines[i])
+     browser.save_screenshot('raw_material/question%i.png'%i)
+
+
+browser.quit()
+display.stop()

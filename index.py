@@ -30,36 +30,53 @@ for root, dirs, filenames in os.walk(direct):
 
 
 class EchoBot(Client):
-    def onMessage(self, author_id,message, message_object, thread_id, thread_type, **kwargs):
-        self.markAsDelivered(author_id, thread_id)
-        self.markAsRead(author_id)
+    def onListening(self):
+            global ranswer
+            global questpermission
+            global i
+            global random
+            global rcomment
+            random = randint(0, i-1)
+            questelement = questionarr[random]
+            ranswer=questelement[1].decode('utf-8').upper().encode('utf-8')
+            rcomment=questelement[2]
+            self.sendLocalImage("questions/%s"%questelement[0], message=None, thread_id="1286566608131059", thread_type=ThreadType.GROUP)
+            questpermission = False
+    def onMessageSeen(self, seen_by=None, thread_id="1286566608131059", thread_type=ThreadType.GROUP, seen_ts=None, ts=None, metadata=None, msg=None):
         global ranswer
         global questpermission
         global i
         global random
         global rcomment
+        if questpermission:
+            random = randint(0, i-1)
+            questelement = questionarr[random]
+            ranswer=questelement[1].decode('utf-8').upper().encode('utf-8')
+            rcomment=questelement[2]
+            self.sendLocalImage("questions/%s"%questelement[0], message=None, thread_id="1286566608131059", thread_type=ThreadType.GROUP)
+            questpermission = False
+    def onMessage(self, author_id,message, message_object, thread_id, thread_type, **kwargs):
+        global ranswer
+        global questpermission
+        global i
+        global random
+        global rcomment
+        self.markAsDelivered(author_id, thread_id)
+        self.markAsRead(author_id)
         if author_id != self.uid:
             if i==0:
                 self.send(Message(text='No question left'), thread_id=thread_id, thread_type=thread_type)
                 self.listening = False
-            mtext = message_object.text.encode('utf-8')
+            mtext = message_object.text.upper().encode('utf-8')
             message_object.attachments=ImageAttachment
-            # print(mtext.decode('utf-8').upper().encode('utf-8'))
             if   questpermission==False:
-                if mtext.decode('utf-8').upper().encode('utf-8') == ranswer.upper() or mtext=="Wasted!":
+                if mtext == ranswer or mtext=="WASTED!":
                     self.send(Message(text='Ответ:%s' % ranswer), thread_id=thread_id, thread_type=thread_type)
                     self.send(Message(text='Комментарий:%s' % rcomment), thread_id=thread_id, thread_type=thread_type)
                     del questionarr[random]
                     i-=1
                     questpermission=True
                     ranswer = None
-            elif mtext == "Give question!" and questpermission:
-                random = randint(0, i-1)
-                questelement = questionarr[random]
-                ranswer=questelement[1]
-                rcomment=questelement[2]
-                self.sendLocalImage("questions/%s"%questelement[0], message=None, thread_id=thread_id, thread_type=ThreadType.GROUP)
-                questpermission = False
 
 client = EchoBot(mail, password)
 client.listen()
