@@ -60,7 +60,6 @@ Jinja2==2.10
 jsbeautifier==1.6.4
 jsonpickle==0.9.5
 jsonrpclib==0.1.7
-keepnote==0.7.8
 keyring==10.6.0
 keyrings.alt==2.2
 killerbee==1.0
