@@ -56,7 +56,6 @@ IPy==0.83
 ipython==5.5.0
 ipython-genutils==0.2.0
 itsdangerous==0.24
-jdcal==1.0
 Jinja2==2.10
 jsbeautifier==1.6.4
 jsonpickle==0.9.5
