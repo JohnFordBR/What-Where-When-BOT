@@ -35,7 +35,6 @@ docutils==0.14
 fbchat==1.2.1
 feedparser==5.2.1
 Flask==0.12.2
-fuse-python==0.2.1
 future==0.15.2
 futures==3.2.0
 gevent==1.2.2
