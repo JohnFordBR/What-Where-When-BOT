@@ -16,7 +16,6 @@ brotlipy==0.6.0
 capstone==3.0.4
 certifi==2017.11.5
 chardet==3.0.4
-chirp===daily-20170714
 click==6.7
 colorama==0.3.7
 ConfigArgParse==0.11.0
