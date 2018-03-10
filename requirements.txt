@@ -62,7 +62,6 @@ jsonpickle==0.9.5
 jsonrpclib==0.1.7
 keyring==10.6.0
 keyrings.alt==2.2
-killerbee==1.0
 lxml==4.1.0
 M2Crypto==0.27.0
 macholib==1.9
