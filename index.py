@@ -14,15 +14,15 @@ rcomment = None
 random = 0
 i = 0
 questionarr = []
-direct = 'answers/'
+direct = 'questions/'
 for root, dirs, filenames in os.walk(direct):
     for fname in filenames:
         i+=1
-        file = open("answers/%s" % fname, "r")
+        file = open("answers/%s" % fname.replace('.png','.txt'), "r")
         answer =  file.read()
         question = fname.replace('.txt','')
         file.close()
-        file = open("comment/%s" % fname, "r")
+        file = open("comment/%s" % fname.replace('.png','.txt'), "r")
         comment =  file.read()
         file.close()
         questionarr.append([question,answer,comment])

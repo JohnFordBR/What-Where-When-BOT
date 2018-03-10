@@ -7,12 +7,9 @@ import re
 import os
 import unicodedata
 import math
-def string_length(str1):
-    count = 0
-    for char in str1:
-        count += 1
-    return count
+DIR = "questions/"
 indir = 'raw_material/'
+counter = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
 for root, dirs, filenames in os.walk(indir):
     for fname in filenames:
         print(fname)
@@ -26,7 +23,7 @@ for root, dirs, filenames in os.walk(indir):
             comment = re.search('(?<=\Комментарий:)(.*?)(?=\.)',nonspace_text).group(0)
             comment=comment.replace('"','')
             comment = comment.strip()
-            file = open("comment/%s.txt" % fname,"w")
+            file = open("comment/question%i.txt" % counter,"w")
             file.write("%s" % comment)
             file.close()
             answer=re.search('(?<=\Ответ:)(.*?)(?=\.)',nonspace_text).group(0)
@@ -34,9 +31,10 @@ for root, dirs, filenames in os.walk(indir):
             answer=answer.strip()
             quelen= len(questring.decode('utf8'))
             img2 = img.crop((500, 368, 1800, 368.0+math.ceil(quelen/161.0)*17))
-            img2.save("questions/%s" % fname)
-            file = open("answers/%s.txt" % fname,"w")
+            img2.save("questions/question%i.png" % counter)
+            file = open("answers/question%i.txt" % counter,"w")
             file.write("%s" % answer)
             file.close()
+            counter=counter+1
         except:
-            print "Caught it!"
+            print "Caught"
