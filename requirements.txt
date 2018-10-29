@@ -100,7 +100,6 @@ olefile==0.44
 opencv-python==3.4.0.12
 openpyxl==2.3.0
 PAM==0.4.2
-paramiko==2.0.0
 passlib==1.7.1
 pathlib2==2.3.0
 pathtools==0.1.2
